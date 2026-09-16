@@ -1,0 +1,11 @@
+date,description,amount,type,category
+2026-07-01,Monthly Salary,75000,Income,Income
+2026-07-05,Grocery Shopping,3200,Expense,Food
+2026-07-08,Electricity Bill,1800,Expense,Utilities
+2026-07-12,Netflix Subscription,649,Expense,Entertainment
+2026-07-15,Petrol Refill,2000,Expense,Transport
+2026-07-18,Restaurant Dinner,1500,Expense,Food
+2026-07-20,Online Shopping,4500,Expense,Shopping
+2026-07-22,Gym Membership,999,Expense,Healthcare
+2026-07-25,Freelance Payment,15000,Income,Income
+2026-07-28,Internet Bill,1199,Expense,Utilities

@@ -1,0 +1,51 @@
+{
+  "users": {
+    "de851229-2a32-40b9-9576-71e9b36b579c": {
+      "fullName": "Aarav Sharma",
+      "email": "aarav.sharma@example.com",
+      "password": "$2b$12$X0Vjrn0IvU8vrZgD/NkIjOGHaZqFwfzOX2LBZzToRytN8Ns7Zpae6",
+      "nationality": "Indian",
+      "preferredCurrency": "INR",
+      "createdAt": "2026-08-05 09:54:01.076850+00:00",
+      "updatedAt": "2026-08-05 09:54:01.076850+00:00",
+      "id": "de851229-2a32-40b9-9576-71e9b36b579c",
+      "_id": "de851229-2a32-40b9-9576-71e9b36b579c"
+    },
+    "testuser999@example.com": {
+      "id": "user_1786037452386",
+      "_id": "user_1786037452386",
+      "username": "Test User",
+      "fullName": "Test User",
+      "email": "testuser999@example.com",
+      "nationality": "Indian",
+      "preferredCurrency": "INR",
+      "createdAt": "2026-08-06T17:30:52.386Z",
+      "updatedAt": "2026-08-06T17:30:52.388Z"
+    },
+    "hetal@gmail.com": {
+      "id": "user_1786037549898",
+      "_id": "user_1786037549898",
+      "username": "hem",
+      "fullName": "hem",
+      "email": "hetal@gmail.com",
+      "nationality": "Indian",
+      "preferredCurrency": "INR",
+      "createdAt": "2026-08-06T17:32:29.898Z",
+      "updatedAt": "2026-08-06T17:32:29.898Z"
+    },
+    "abc@gmail.com": {
+      "id": "user_1786094225645",
+      "_id": "user_1786094225645",
+      "username": "abc",
+      "fullName": "abc",
+      "email": "abc@gmail.com",
+      "nationality": "Indian",
+      "preferredCurrency": "INR",
+      "createdAt": "2026-08-07T09:17:05.645Z",
+      "updatedAt": "2026-08-07T09:17:05.645Z"
+    }
+  },
+  "transactions": {},
+  "budgets": {},
+  "predictions": {}
+}
