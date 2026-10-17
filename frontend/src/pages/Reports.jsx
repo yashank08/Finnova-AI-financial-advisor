@@ -6,7 +6,7 @@ import {
   RefreshCw, Bot, CheckCircle2, Sparkles, ShieldCheck, Coins,
   Upload, X, FileUp, CloudUpload, FilePlus2
 } from 'lucide-react';
-import api from '../utils/api';
+import api, { API_BASE_URL } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 
 const fmt = (n) =>
@@ -445,7 +445,7 @@ export default function Reports() {
 
           {/* CSV Download */}
           <a
-            href="/api/reports/download"
+            href={`${API_BASE_URL}/reports/download`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary text-xs py-2.5 px-4 flex items-center gap-2"

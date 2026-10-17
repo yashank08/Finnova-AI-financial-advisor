@@ -6,7 +6,7 @@ import {
   AlertCircle, Loader2, CheckCircle2, ArrowUpRight, ArrowDownRight,
   TrendingUp, TrendingDown, Wallet, ListFilter
 } from 'lucide-react';
-import api from '../utils/api';
+import api, { API_BASE_URL } from '../utils/api';
 
 const CATEGORIES = [
   'Income', 'Food', 'Transport', 'Utilities', 'Entertainment',
@@ -377,7 +377,7 @@ export default function Transactions() {
             className="hidden"
           />
           <a
-            href="/api/transactions/export"
+            href={`${API_BASE_URL}/transactions/export`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary text-xs py-2.5 px-4 flex items-center gap-2"

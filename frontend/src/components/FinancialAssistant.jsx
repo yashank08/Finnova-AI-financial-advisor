@@ -12,7 +12,7 @@ import {
   Mic,
   MicOff
 } from 'lucide-react';
-import api from '../utils/api';
+import api, { API_BASE_URL } from '../utils/api';
 import { useTheme } from '../context/ThemeContext';
 
 const EXAMPLE_QUESTIONS = [
@@ -146,7 +146,8 @@ export function FinancialAssistant({ initialPrompt }) {
     try {
       // Attempt SSE Streaming first
       const token = localStorage.getItem('finnova_token') || sessionStorage.getItem('finnova_token');
-      const response = await fetch('/api/chat', {
+      const chatUrl = `${API_BASE_URL}/chat`;
+      const response = await fetch(chatUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

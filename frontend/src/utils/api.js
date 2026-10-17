@@ -1,7 +1,24 @@
 import axios from 'axios';
 
+let base = import.meta.env.VITE_API_URL || '/api';
+
+if (typeof base === 'string') {
+  base = base.trim();
+  // Strip trailing slashes
+  while (base.endsWith('/')) {
+    base = base.slice(0, -1);
+  }
+  // If the user inputs their Render backend domain like https://my-backend.onrender.com
+  // automatically append /api so endpoints like api.post('/auth/login') hit https://my-backend.onrender.com/api/auth/login
+  if (base.startsWith('http') && !base.endsWith('/api')) {
+    base = `${base}/api`;
+  }
+}
+
+export const API_BASE_URL = base;
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json'
   }
