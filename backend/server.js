@@ -694,10 +694,10 @@ app.use('/api', chatRoutes);
 app.use('/', chatRoutes);
 
 // Health check
-app.get('/health', (req, res) => {
+app.get(['/health', '/api/health', '/'], (req, res) => {
   res.json({
     status: 'healthy',
-    service: 'FinNova AI Service',
+    service: 'FinNova AI Backend',
     provider: 'OpenRouter API',
     model: 'openai/gpt-4.1-mini'
   });
