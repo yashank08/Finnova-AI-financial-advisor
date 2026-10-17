@@ -40,10 +40,27 @@ async def create_transaction(user_id: str, data: TransactionCreate) -> Dict[str,
     db_obj = get_db()
     now = datetime.now(timezone.utc)
 
+    # Check if category needs AI auto-classification
+    generic_cats = {"", "other", "general", "uncategorized", "unknown"}
+    category_val = (data.category or "").strip()
+    confidence = 1.0
+
+    if not category_val or category_val.lower() in generic_cats:
+        try:
+            from app.ai_engine.classification.predict import predict_category
+            res = predict_category(data.description)
+            category_val = res.get("predicted_category", category_val or "Other")
+            confidence = float(res.get("confidence", 0.0))
+        except Exception as e:
+            logger.warning(f"Transaction classification fallback: {e}")
+            category_val = category_val or "Other"
+            confidence = 0.0
+
     doc = {
         "userId": user_id,
-        "type": data.type,
-        "category": data.category,
+        "type": data.type or ("Income" if category_val == "Income" else "Expense"),
+        "category": category_val,
+        "classificationConfidence": confidence,
         "amount": data.amount,
         "description": data.description,
         "date": data.date,

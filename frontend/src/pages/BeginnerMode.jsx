@@ -44,9 +44,18 @@ export default function BeginnerMode() {
     setViewState('questionnaire');
   };
 
+  const handleResetRoadmap = () => {
+    setCompletedLevels([]);
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify([]));
+    localStorage.removeItem(OLD_PROGRESS_KEY);
+    setSelectedLevel(null);
+  };
+
   const handleCompleteQuestionnaire = (answers) => {
     setProfile(answers);
     localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(answers));
+    // Automatically reset all roadmap progress and badges to start fresh
+    handleResetRoadmap();
     setViewState('dashboard');
   };
 
@@ -114,6 +123,7 @@ export default function BeginnerMode() {
           <motion.div key="questionnaire" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <BeginnerQuestionnaire
               initialAnswers={profile || INITIAL_QUESTIONNAIRE}
+              isRetake={Boolean(profile)}
               onComplete={handleCompleteQuestionnaire}
               onCancel={() => setViewState(profile ? 'dashboard' : 'welcome')}
             />
@@ -141,6 +151,7 @@ export default function BeginnerMode() {
               completedLevels={completedLevels}
               onSelectLevel={(level) => setSelectedLevel(level)}
               currentLevelId={selectedLevel?.id}
+              onReset={handleResetRoadmap}
             />
 
             {/* STEP 8: Achievement Badges System */}
@@ -159,6 +170,7 @@ export default function BeginnerMode() {
                 level={selectedLevel}
                 userProfile={profile}
                 onCompleteLevel={handleCompleteLevel}
+                onNextLevel={handleSelectLevelById}
                 onClose={() => setSelectedLevel(null)}
               />
             </div>

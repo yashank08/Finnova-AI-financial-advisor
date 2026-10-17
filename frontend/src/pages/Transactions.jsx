@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Plus, Trash2, Filter, X, CreditCard, Download,
+  Plus, Trash2, Filter, X, CreditCard, Download, Upload,
   Search, ChevronLeft, ChevronRight,
   AlertCircle, Loader2, CheckCircle2, ArrowUpRight, ArrowDownRight,
   TrendingUp, TrendingDown, Wallet, ListFilter
@@ -211,6 +211,53 @@ export default function Transactions() {
   const [deletingId, setDeletingId] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
 
+  const fileInputRef = useRef(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleImportClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.name.toLowerCase().endsWith('.csv')) {
+      setToastMessage('Error: Please select a valid CSV file.');
+      setTimeout(() => setToastMessage(null), 4000);
+      e.target.value = '';
+      return;
+    }
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await api.post('/transactions/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      const count = res.data.imported || 0;
+      setToastMessage(res.data.message || `Successfully imported ${count} transactions.`);
+      setTimeout(() => setToastMessage(null), 4000);
+
+      setPage(1);
+      fetchTransactions();
+    } catch (err) {
+      const errorMsg = err.response?.data?.detail || err.response?.data?.message || err.message || 'Failed to upload statement CSV.';
+      setToastMessage(`Error: ${errorMsg}`);
+      setTimeout(() => setToastMessage(null), 4000);
+    } finally {
+      setUploading(false);
+      e.target.value = '';
+    }
+  };
+
   const fetchTransactions = useCallback(async () => {
     setLoading(true);
     setError('');
@@ -322,6 +369,13 @@ export default function Transactions() {
         </div>
 
         <div className="flex items-center gap-3 self-start md:self-auto flex-wrap">
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept=".csv"
+            onChange={handleFileUpload}
+            className="hidden"
+          />
           <a
             href="/api/transactions/export"
             target="_blank"
@@ -332,6 +386,18 @@ export default function Transactions() {
             <span>Download Statement</span>
           </a>
           <button
+            onClick={handleImportClick}
+            disabled={uploading}
+            className="btn-secondary text-xs py-2.5 px-4 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+          >
+            {uploading ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[var(--accent-gold)]" />
+            ) : (
+              <Upload className="w-3.5 h-3.5 text-[var(--accent-gold)]" />
+            )}
+            <span>{uploading ? 'Importing...' : 'Import Statement'}</span>
+          </button>
+          <button
             onClick={() => setShowAddModal(true)}
             className="btn-primary text-xs py-2.5 px-4 flex items-center gap-2"
           >
@@ -339,6 +405,7 @@ export default function Transactions() {
             <span>Add Transaction</span>
           </button>
         </div>
+
       </div>
 
       {error && (

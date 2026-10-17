@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
+const { spawnSync } = require('child_process');
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
@@ -331,6 +332,81 @@ app.get('/api/ai/recommendations', (req, res) => {
 });
 
 // ----------------------------------------------------
+// AI Merchant Classification Integration Helper
+// ----------------------------------------------------
+function classifyDescription(description, existingCategory) {
+  const genericCategories = ['other', 'general', 'uncategorized', 'unknown', ''];
+  const cleanExisting = (existingCategory || '').trim();
+  const lowerExisting = cleanExisting.toLowerCase();
+
+  // Preserve user's manual category selection if specific
+  if (cleanExisting && !genericCategories.includes(lowerExisting)) {
+    return {
+      category: cleanExisting,
+      confidence: 1.0,
+      isAutoClassified: false
+    };
+  }
+
+  if (!description || typeof description !== 'string' || !description.trim()) {
+    return {
+      category: cleanExisting || 'Other',
+      confidence: 0.0,
+      isAutoClassified: false
+    };
+  }
+
+  try {
+    const cliScript = path.resolve(__dirname, 'app/ai_engine/classification/predict_cli.py');
+    const pythonProc = spawnSync('python', [cliScript, description.trim()], {
+      encoding: 'utf8',
+      timeout: 5000,
+      windowsHide: true
+    });
+
+    if (pythonProc.status === 0 && pythonProc.stdout) {
+      const output = JSON.parse(pythonProc.stdout.trim());
+      if (output && output.predicted_category) {
+        return {
+          category: output.predicted_category,
+          confidence: output.confidence ?? 0.0,
+          isAutoClassified: true
+        };
+      }
+    }
+  } catch (err) {
+    console.warn('[Classifier Integration] Inference call fallback:', err.message);
+  }
+
+  return {
+    category: cleanExisting || 'Other',
+    confidence: 0.0,
+    isAutoClassified: false
+  };
+}
+
+function classifyBatch(descriptions) {
+  if (!Array.isArray(descriptions) || descriptions.length === 0) return [];
+  try {
+    const cliScript = path.resolve(__dirname, 'app/ai_engine/classification/predict_cli.py');
+    const pythonProc = spawnSync('python', [cliScript], {
+      input: JSON.stringify(descriptions),
+      encoding: 'utf8',
+      timeout: 10000,
+      windowsHide: true
+    });
+
+    if (pythonProc.status === 0 && pythonProc.stdout) {
+      const output = JSON.parse(pythonProc.stdout.trim());
+      if (Array.isArray(output)) return output;
+    }
+  } catch (err) {
+    console.warn('[Classifier Batch Integration] Fallback:', err.message);
+  }
+  return descriptions.map(d => ({ description: d, predicted_category: 'Other', confidence: 0.0 }));
+}
+
+// ----------------------------------------------------
 // Transactions Endpoints
 // ----------------------------------------------------
 app.get('/api/transactions', (req, res) => {
@@ -372,11 +448,15 @@ app.post('/api/transactions', (req, res) => {
   const { type, category, amount, description, date } = req.body;
   const uniqueId = `tx_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
   
+  // Run ML classification if category is missing/Other/General
+  const classification = classifyDescription(description, category);
+
   const newTx = {
     id: uniqueId,
     _id: uniqueId,
-    type: type || 'Expense',
-    category: category || 'Other',
+    type: type || (classification.category === 'Income' ? 'Income' : 'Expense'),
+    category: classification.category || category || 'Other',
+    classificationConfidence: classification.confidence,
     amount: Number(amount || 0),
     description: description || 'New Transaction',
     date: date || new Date().toISOString()
@@ -448,7 +528,8 @@ const handleStatementUpload = (req, res) => {
     const hasHeader = header.includes('date') || header.includes('amount') || header.includes('description');
     const dataLines = hasHeader ? lines.slice(1) : lines;
 
-    const importedTransactions = [];
+    const parsedRows = [];
+    const genericCategories = ['other', 'general', 'uncategorized', 'unknown', ''];
 
     dataLines.forEach((line, index) => {
       const parts = line.split(',').map(p => p.trim().replace(/^["']|["']$/g, ''));
@@ -456,8 +537,8 @@ const handleStatementUpload = (req, res) => {
         let dateVal = parts[0];
         let descVal = parts[1];
         let amtVal = parseFloat(parts[2]);
-        let typeVal = parts[3] || (amtVal < 0 ? 'Expense' : 'Expense');
-        let catVal = parts[4] || (typeVal === 'Income' ? 'Income' : 'Other');
+        let typeVal = parts[3];
+        let catVal = parts[4];
 
         if (isNaN(amtVal)) amtVal = 0;
         amtVal = Math.abs(amtVal);
@@ -468,24 +549,66 @@ const handleStatementUpload = (req, res) => {
           dateVal = new Date(dateVal).toISOString();
         }
 
-        const uniqueId = `csv_${Date.now()}_${index}_${Math.random().toString(36).substring(2, 6)}`;
-        const txObj = {
-          id: uniqueId,
-          _id: uniqueId,
-          date: dateVal,
-          description: descVal || `Statement Entry ${index + 1}`,
-          amount: amtVal,
-          type: typeVal === 'Income' ? 'Income' : 'Expense',
-          category: catVal || 'General'
-        };
+        const cleanDesc = descVal || `Statement Entry ${index + 1}`;
+        const cleanCat = (catVal || '').trim();
+        const isGeneric = !cleanCat || genericCategories.includes(cleanCat.toLowerCase());
 
-        importedTransactions.push(txObj);
+        parsedRows.push({
+          index,
+          dateVal,
+          descVal: cleanDesc,
+          amtVal,
+          typeVal,
+          catVal: cleanCat,
+          isGeneric
+        });
       }
     });
 
-    if (importedTransactions.length === 0) {
+    if (parsedRows.length === 0) {
       return res.status(400).json({ detail: "Could not parse any valid transaction rows from the CSV file." });
     }
+
+    // Collect descriptions needing ML auto-classification
+    const needsClassification = parsedRows.filter(r => r.isGeneric).map(r => r.descVal);
+    const predictions = needsClassification.length > 0 ? classifyBatch(needsClassification) : [];
+
+    let predMap = {};
+    predictions.forEach(p => {
+      if (p && p.description) {
+        predMap[p.description] = p;
+      }
+    });
+
+    const importedTransactions = parsedRows.map((r) => {
+      const uniqueId = `csv_${Date.now()}_${r.index}_${Math.random().toString(36).substring(2, 6)}`;
+      let finalCategory = r.catVal;
+      let confidence = 1.0;
+
+      if (r.isGeneric && predMap[r.descVal]) {
+        finalCategory = predMap[r.descVal].predicted_category || 'General';
+        confidence = predMap[r.descVal].confidence ?? 0.0;
+      }
+
+      if (!finalCategory || genericCategories.includes(finalCategory.toLowerCase())) {
+        finalCategory = 'General';
+      }
+
+      const txType = r.typeVal 
+        ? (r.typeVal.toLowerCase() === 'income' ? 'Income' : 'Expense')
+        : (finalCategory === 'Income' ? 'Income' : 'Expense');
+
+      return {
+        id: uniqueId,
+        _id: uniqueId,
+        date: r.dateVal,
+        description: r.descVal,
+        amount: r.amtVal,
+        type: txType,
+        category: finalCategory,
+        classificationConfidence: confidence
+      };
+    });
 
     // Insert imported transactions into store
     transactionsStore = [...importedTransactions, ...transactionsStore];
@@ -501,6 +624,8 @@ const handleStatementUpload = (req, res) => {
     return res.status(500).json({ detail: "Failed to process bank statement CSV." });
   }
 };
+
+
 
 app.post('/api/reports/upload', upload.single('file'), handleStatementUpload);
 app.post('/api/transactions/upload', upload.single('file'), handleStatementUpload);

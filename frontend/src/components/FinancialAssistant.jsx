@@ -95,10 +95,10 @@ export function FinancialAssistant({ initialPrompt }) {
   };
 
   const scrollToBottom = (smooth = true) => {
-    if (!containerRef.current) return;
-    if (smooth) {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    } else {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'nearest' });
+    }
+    if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   };
@@ -108,6 +108,10 @@ export function FinancialAssistant({ initialPrompt }) {
       handleSend(initialPrompt);
     }
   }, [initialPrompt]);
+
+  useEffect(() => {
+    scrollToBottom(true);
+  }, [messages, isThinking]);
 
   const handleSend = async (customPrompt = null, isRetry = false, retryText = '') => {
     const queryText = customPrompt || retryText || inputText;
@@ -317,8 +321,9 @@ export function FinancialAssistant({ initialPrompt }) {
                 <h2 className="text-base font-bold text-[var(--text-primary)]">
                   FinNova AI Assistant
                 </h2>
-                <span className="px-2 py-0.5 rounded-full bg-[var(--accent-gold)]/15 text-[var(--accent-gold)] border border-[var(--accent-gold)]/30 text-[10px] font-bold uppercase tracking-wider">
-                  OpenRouter (gpt-4.1-mini)
+                <span className="px-2 py-0.5 rounded-full bg-[#22C55E]/15 text-[#22C55E] border border-[#22C55E]/30 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-ping" />
+                  Active
                 </span>
               </div>
               <p className="text-[var(--text-secondary)] text-xs">

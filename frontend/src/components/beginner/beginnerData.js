@@ -83,15 +83,41 @@ export const ROADMAP_LEVELS = [
       'Treating credit cards as free extra money.'
     ],
     quiz: {
-      question: 'What is the definition of a financial Asset?',
-      options: [
-        'Anything you buy on credit',
-        'Something that generates value or puts money in your pocket over time',
-        'Your monthly apartment rent',
-        'Expensive clothes you wear once'
-      ],
-      correctAnswer: 1,
-      explanation: 'Correct! An asset puts money in your pocket or appreciates in value over time.'
+      questions: [
+        {
+          question: 'What is the definition of a financial Asset?',
+          options: [
+            'Anything you buy on credit',
+            'Your monthly apartment rent',
+            'Something that generates value or puts money in your pocket over time',
+            'Expensive clothes you wear once'
+          ],
+          correctAnswer: 2,
+          explanation: 'Correct! An asset puts money in your pocket or appreciates in value over time.'
+        },
+        {
+          question: 'Which of the following is considered a financial Liability?',
+          options: [
+            'High-interest credit card debt for luxury spending',
+            'A rental property that pays monthly income',
+            'A dividend-paying mutual fund',
+            'A government savings bond'
+          ],
+          correctAnswer: 0,
+          explanation: 'Spot on! Liabilities take money out of your pocket every month without producing future value.'
+        },
+        {
+          question: 'What does positive Net Cash Flow mean?',
+          options: [
+            'You spent more money than you earned this month',
+            'You maxed out all your credit card limits',
+            'Your bank account balance reached zero',
+            'Your total monthly income exceeds your total monthly expenses'
+          ],
+          correctAnswer: 3,
+          explanation: 'Great job! Positive cash flow means you have money left over after paying all monthly expenses.'
+        }
+      ]
     }
   },
   {
@@ -108,10 +134,31 @@ export const ROADMAP_LEVELS = [
       'Confusing Wants with Needs (e.g. latest flagship phone vs functional phone).'
     ],
     quiz: {
-      question: 'According to the 50/30/20 rule, how much of your net income should go toward Savings & Investments?',
-      options: ['10%', '20%', '30%', '50%'],
-      correctAnswer: 1,
-      explanation: 'Correct! 20% of your income should be allocated to savings and investments right after you get paid.'
+      questions: [
+        {
+          question: 'According to the 50/30/20 rule, how much of your net income should go toward Savings & Investments?',
+          options: ['50%', '30%', '20%', '10%'],
+          correctAnswer: 2,
+          explanation: 'Correct! 20% of your income should be allocated to savings and investments right after you get paid.'
+        },
+        {
+          question: 'Under the 50/30/20 framework, where does paying essential apartment rent fall?',
+          options: ['Needs (50%)', 'Wants (30%)', 'Savings & Debt Paydown (20%)', 'Discretionary Luxury'],
+          correctAnswer: 0,
+          explanation: 'Exactly! Essential living expenses like rent, groceries, and utility bills belong under Needs (50%).'
+        },
+        {
+          question: 'What is the principle of "Pay Yourself First"?',
+          options: [
+            'Spending all salary on hobbies and saving what remains',
+            'Borrowing money to pay for weekend dining out',
+            'Paying off credit cards using new loan money',
+            'Automating savings & investments on payday before spending on non-essentials'
+          ],
+          correctAnswer: 3,
+          explanation: 'Well done! Paying yourself first ensures your wealth goals are prioritized every single month.'
+        }
+      ]
     }
   },
   {
@@ -128,10 +175,36 @@ export const ROADMAP_LEVELS = [
       'Using emergency savings for vacations or shopping sales.'
     ],
     quiz: {
-      question: 'How many months of essential expenses should an Emergency Fund cover?',
-      options: ['1 Month', '3 to 6 Months', '12 to 24 Months', 'None, invest everything'],
-      correctAnswer: 1,
-      explanation: 'Correct! 3 to 6 months of living expenses provides a safe financial cushion.'
+      questions: [
+        {
+          question: 'How many months of essential expenses should an Emergency Fund cover?',
+          options: ['1 Month', '3 to 6 Months', '12 to 24 Months', 'None, invest everything'],
+          correctAnswer: 1,
+          explanation: 'Correct! 3 to 6 months of living expenses provides a safe financial cushion.'
+        },
+        {
+          question: 'Which financial account is best suited for storing an Emergency Fund?',
+          options: [
+            'Volatile single tech stocks',
+            'Locked 10-year real estate property',
+            'Liquid savings account or instant-redemption liquid mutual fund',
+            'Cryptocurrency tokens'
+          ],
+          correctAnswer: 2,
+          explanation: 'Spot on! Emergency funds require safety and immediate liquidity, not high volatility or lock-in periods.'
+        },
+        {
+          question: 'In which situation should you use money from your Emergency Fund?',
+          options: [
+            'Unplanned medical emergency or sudden job transition',
+            'Buying a newly launched smartphone on sale',
+            'Booking a spontaneous luxury vacation',
+            'Investing in a trendy stock tip'
+          ],
+          correctAnswer: 0,
+          explanation: 'Correct! Emergency funds are exclusively reserved for true unexpected life crises.'
+        }
+      ]
     }
   },
   {
@@ -148,15 +221,36 @@ export const ROADMAP_LEVELS = [
       'Ignoring inflation when planning long-term goals 10-20 years away.'
     ],
     quiz: {
-      question: 'What happens to cash kept idle in a safe during 6% annual inflation?',
-      options: [
-        'It grows by 6%',
-        'It stays exactly the same value',
-        'Its purchasing power decreases by ~6% every year',
-        'It doubles automatically'
-      ],
-      correctAnswer: 2,
-      explanation: 'Spot on! Inflation erodes purchasing power over time.'
+      questions: [
+        {
+          question: 'What happens to cash kept idle in a safe during 6% annual inflation?',
+          options: [
+            'It grows by 6%',
+            'It stays exactly the same value',
+            'Its purchasing power decreases by ~6% every year',
+            'It doubles automatically'
+          ],
+          correctAnswer: 2,
+          explanation: 'Spot on! Inflation erodes purchasing power over time.'
+        },
+        {
+          question: 'If annual inflation is 6% and your savings account pays 2.5% interest, what is your net real return?',
+          options: ['+8.5% gain', '+3.5% gain', '0% break-even', '-3.5% real loss in purchasing power'],
+          correctAnswer: 3,
+          explanation: 'Correct! Real Return = Interest (2.5%) minus Inflation (6%) = -3.5% purchasing power loss.'
+        },
+        {
+          question: 'Which asset class has historically beaten inflation over long multi-year horizons?',
+          options: [
+            'Diversified equities / stock mutual funds',
+            'Paper cash under a mattress',
+            'Basic checking account',
+            'Gold jewelry bought with high making charges'
+          ],
+          correctAnswer: 0,
+          explanation: 'Awesome! Equities historically deliver inflation-beating growth over long investment periods.'
+        }
+      ]
     }
   },
   {
@@ -173,10 +267,36 @@ export const ROADMAP_LEVELS = [
       'Using volatile investments for money needed next month.'
     ],
     quiz: {
-      question: 'Which option is best for a financial goal 10 years in the future?',
-      options: ['Cash under mattress', 'Standard Savings Account', 'Diversified Long-Term Investment', 'Checking Account'],
-      correctAnswer: 2,
-      explanation: 'Correct! Diversified investments help beat inflation for long-term goals.'
+      questions: [
+        {
+          question: 'Which option is best for a financial goal 10 years in the future?',
+          options: ['Cash under mattress', 'Standard Savings Account', 'Checking Account', 'Diversified Long-Term Investment'],
+          correctAnswer: 3,
+          explanation: 'Correct! Diversified investments help beat inflation for long-term goals.'
+        },
+        {
+          question: 'What is the primary difference between Saving and Investing?',
+          options: [
+            'Saving aims to preserve short-term capital; Investing aims to build long-term wealth',
+            'Saving is risky; Investing is completely risk-free',
+            'Saving pays dividend yields; Investing pays zero returns',
+            'There is no difference between saving and investing'
+          ],
+          correctAnswer: 0,
+          explanation: 'Exactly! Saving prioritizes safety and liquidity; investing prioritizes growth and compounding.'
+        },
+        {
+          question: 'If you need money for a college fee payment due in 4 months, where should you keep it?',
+          options: [
+            'High-volatility mid-cap stocks',
+            'Short-term safe bank deposit or liquid fund',
+            'Commodity futures trading',
+            'Long-term real estate land'
+          ],
+          correctAnswer: 1,
+          explanation: 'Spot on! Short-term money (under 1 year) should never be exposed to stock market volatility.'
+        }
+      ]
     }
   },
   {
@@ -193,10 +313,36 @@ export const ROADMAP_LEVELS = [
       'Panicking and withdrawing money during short-term market dips.'
     ],
     quiz: {
-      question: 'Who manages the investments inside a mutual fund?',
-      options: ['The investor personally', 'A professional Fund Manager', 'The government', 'Algorithms only'],
-      correctAnswer: 1,
-      explanation: 'Exactly! Professional fund managers analyze market data and manage the portfolio on behalf of investors.'
+      questions: [
+        {
+          question: 'Who manages the investments inside a mutual fund?',
+          options: ['The investor personally', 'The government', 'A professional Fund Manager', 'Algorithms only'],
+          correctAnswer: 2,
+          explanation: 'Exactly! Professional fund managers analyze market data and manage the portfolio on behalf of investors.'
+        },
+        {
+          question: 'What does NAV (Net Asset Value) represent in a mutual fund?',
+          options: [
+            'The market value of one unit of the mutual fund scheme',
+            'The annual penalty fee',
+            'The guaranteed annual interest rate',
+            'The total number of investors in the fund'
+          ],
+          correctAnswer: 0,
+          explanation: 'Great! NAV is the per-unit price at which you purchase or redeem mutual fund units.'
+        },
+        {
+          question: 'What is the primary feature of an Index Mutual Fund?',
+          options: [
+            'It actively picks stocks to beat the market daily',
+            'It guarantees 20% annual returns',
+            'It passively replicates a market index like Nifty 50 or Sensex with low fees',
+            'It only invests in government foreign currency'
+          ],
+          correctAnswer: 2,
+          explanation: 'Correct! Index funds track benchmark indices with low management expenses and broad diversification.'
+        }
+      ]
     }
   },
   {
@@ -213,15 +359,41 @@ export const ROADMAP_LEVELS = [
       'Waiting for the "perfect market time" to start.'
     ],
     quiz: {
-      question: 'What is the main advantage of Rupee Cost Averaging in SIP?',
-      options: [
-        'Guarantees zero risk',
-        'Buys more units when prices drop and fewer when prices rise',
-        'Eliminates all taxes',
-        'Doubles your income monthly'
-      ],
-      correctAnswer: 1,
-      explanation: 'Correct! SIP automatically buys more units during market dips, lowering average cost.'
+      questions: [
+        {
+          question: 'What is the main advantage of Rupee Cost Averaging in SIP?',
+          options: [
+            'Guarantees zero risk',
+            'Eliminates all taxes',
+            'Doubles your income monthly',
+            'Buys more units when prices drop and fewer when prices rise'
+          ],
+          correctAnswer: 3,
+          explanation: 'Correct! SIP automatically buys more units during market dips, lowering average cost.'
+        },
+        {
+          question: 'What should an investor do when stock markets drop significantly during their monthly SIP?',
+          options: [
+            'Continue or maintain the regular SIP to buy units at lower discounted prices',
+            'Stop the SIP immediately and sell everything',
+            'Borrow loans to double daily trading',
+            'Complain to the bank manager'
+          ],
+          correctAnswer: 0,
+          explanation: 'Well done! Market dips allow your fixed SIP amount to buy more units, accelerating future compounding.'
+        },
+        {
+          question: 'What is the minimum typical amount required to start a monthly SIP in India?',
+          options: [
+            '₹50,000 per month',
+            '₹500 to ₹1,000 per month',
+            '₹5 Lakhs minimum lump sum',
+            '₹10,000 per week'
+          ],
+          correctAnswer: 1,
+          explanation: 'Spot on! SIPs are accessible to everyone, allowing investments as low as ₹500/month.'
+        }
+      ]
     }
   },
   {
@@ -238,10 +410,41 @@ export const ROADMAP_LEVELS = [
       'Putting all money into a single hyped stock without research.'
     ],
     quiz: {
-      question: 'What does owning a stock mean?',
-      options: ['Lending money to a bank', 'Owning a small percentage share of a company', 'Buying a lottery ticket', 'Paying government taxes'],
-      correctAnswer: 1,
-      explanation: 'Spot on! Owning a stock gives you fractional ownership in that business.'
+      questions: [
+        {
+          question: 'What does owning a stock mean?',
+          options: [
+            'Lending money to a bank',
+            'Buying a lottery ticket',
+            'Owning a small percentage share of a company',
+            'Paying government taxes'
+          ],
+          correctAnswer: 2,
+          explanation: 'Spot on! Owning a stock gives you fractional ownership in that business.'
+        },
+        {
+          question: 'What is a Stock Dividend?',
+          options: [
+            'A penalty charged by the stock exchange',
+            'A portion of corporate profits paid directly to shareholders',
+            'The price paid to open a trading account',
+            'A tax levied on buying shares'
+          ],
+          correctAnswer: 1,
+          explanation: 'Correct! Dividends are cash rewards distributed by profitable companies to their owners.'
+        },
+        {
+          question: 'Over a 10-year period, what drives a healthy company\'s stock price upward?',
+          options: [
+            'Sustained growth in company revenues and profits',
+            'Random social media rumors',
+            'Daily stock ticker colors',
+            'High CEO salary announcements'
+          ],
+          correctAnswer: 0,
+          explanation: 'Great job! Over the long run, stock prices follow the underlying growth and earnings of the business.'
+        }
+      ]
     }
   },
   {
@@ -258,15 +461,41 @@ export const ROADMAP_LEVELS = [
       'Over-diversifying into 50 identical funds.'
     ],
     quiz: {
-      question: 'Why is asset diversification crucial in investing?',
-      options: [
-        'It doubles returns overnight',
-        'It spreads risk so a decline in one asset does not ruin your portfolio',
-        'It avoids all processing fees',
-        'It guarantees 100% fixed returns'
-      ],
-      correctAnswer: 1,
-      explanation: 'Correct! Diversification mitigates risk by reducing the impact of any single failing investment.'
+      questions: [
+        {
+          question: 'Why is asset diversification crucial in investing?',
+          options: [
+            'It doubles returns overnight',
+            'It avoids all processing fees',
+            'It spreads risk so a decline in one asset does not ruin your portfolio',
+            'It guarantees 100% fixed returns'
+          ],
+          correctAnswer: 2,
+          explanation: 'Correct! Diversification mitigates risk by reducing the impact of any single failing investment.'
+        },
+        {
+          question: 'Which portfolio demonstrates effective asset class diversification?',
+          options: [
+            '100% money in 1 single cryptocurrency token',
+            'Buying 10 different companies in only the airline sector',
+            'Keeping all money in physical cash under a rug',
+            'Splitting funds across Indian Equities, Debt/Bonds, Gold, and International Index Funds'
+          ],
+          correctAnswer: 3,
+          explanation: 'Awesome! Combining distinct asset classes balances risk and stabilizes long-term portfolio growth.'
+        },
+        {
+          question: 'What is "Concentration Risk"?',
+          options: [
+            'Investing too heavily in a single stock, sector, or asset class',
+            'Studying financial news too hard',
+            'Keeping money in multiple bank branches',
+            'Failing to pay credit card bills on time'
+          ],
+          correctAnswer: 0,
+          explanation: 'Spot on! Concentration risk exposes your entire wealth to the failure of a single company or industry.'
+        }
+      ]
     }
   },
   {
@@ -283,10 +512,41 @@ export const ROADMAP_LEVELS = [
       'Starting late instead of investing small amounts early.'
     ],
     quiz: {
-      question: 'What is the most crucial factor in compounding wealth over time?',
-      options: ['Predicting tomorrow’s stock market price', 'Time and consistency over 10-20 years', 'Frequent daily trading', 'High transaction fees'],
-      correctAnswer: 1,
-      explanation: 'Awesome! Time and consistency allow compounding to exponentially multiply your wealth.'
+      questions: [
+        {
+          question: 'What is the most crucial factor in compounding wealth over time?',
+          options: [
+            'Predicting tomorrow’s stock market price',
+            'Time and consistency over 10-20 years',
+            'Frequent daily trading',
+            'High transaction fees'
+          ],
+          correctAnswer: 1,
+          explanation: 'Awesome! Time and consistency allow compounding to exponentially multiply your wealth.'
+        },
+        {
+          question: 'What is the "Rule of 72" in financial planning?',
+          options: [
+            'A rule that says you must retire at age 72',
+            'A requirement to invest 72% of your monthly income',
+            'A quick formula (72 ÷ annual return rate) to estimate years needed to double your money',
+            'The maximum tax deduction percentage'
+          ],
+          correctAnswer: 2,
+          explanation: 'Correct! Dividing 72 by your expected annual return rate gives the approximate years required to double your investment.'
+        },
+        {
+          question: 'Why does starting to invest at age 22 vs age 32 make a dramatic financial difference?',
+          options: [
+            'Younger investors receive higher interest rates from banks',
+            'Stock markets only grow for people under 30',
+            'Older investors pay double stock fees',
+            'The extra 10 years of compounding allows interest to generate its own interest over decades'
+          ],
+          correctAnswer: 3,
+          explanation: 'Brilliant! Time is the greatest compounder—starting early gives your money decades to multiply exponentially.'
+        }
+      ]
     }
   }
 ];

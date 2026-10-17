@@ -16,7 +16,7 @@ const PRIOR_INVESTMENT_OPTIONS = ['Never', 'A little', 'Yes'];
 const RISK_OPTIONS = ['Very Low', 'Low', 'Medium', 'High'];
 const TIMELINE_OPTIONS = ['1 Year', '3 Years', '5 Years', '10+ Years'];
 
-export default function BeginnerQuestionnaire({ initialAnswers, onComplete, onCancel }) {
+export default function BeginnerQuestionnaire({ initialAnswers, isRetake = false, onComplete, onCancel }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [formData, setFormData] = useState({ ...initialAnswers });
   const [errorMsg, setErrorMsg] = useState('');
@@ -105,6 +105,13 @@ export default function BeginnerQuestionnaire({ initialAnswers, onComplete, onCa
           />
         </div>
       </div>
+
+      {isRetake && (
+        <div className="p-3 rounded-xl bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] text-xs font-medium flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span>⚠️ Completing this retake will <strong>reset your roadmap progress and badges</strong> to start fresh with your updated profile.</span>
+        </div>
+      )}
 
       {errorMsg && (
         <div className="p-3 rounded-xl bg-[#EF4444]/10 border border-[#EF4444]/20 text-[#EF4444] text-xs font-medium flex items-center gap-2">

@@ -43,6 +43,28 @@
       "preferredCurrency": "INR",
       "createdAt": "2026-08-07T09:17:05.645Z",
       "updatedAt": "2026-08-07T09:17:05.645Z"
+    },
+    "yashankmaru53@gmail.com": {
+      "id": "user_1790063409579",
+      "_id": "user_1790063409579",
+      "username": "Yashank Maru",
+      "fullName": "Yashank Maru",
+      "email": "yashankmaru53@gmail.com",
+      "nationality": "Indian",
+      "preferredCurrency": "INR",
+      "createdAt": "2026-09-22T07:50:09.579Z",
+      "updatedAt": "2026-09-22T07:50:09.579Z"
+    },
+    "pratik123@gmail.com": {
+      "id": "user_1790243460887",
+      "_id": "user_1790243460887",
+      "username": "pratik",
+      "fullName": "pratik",
+      "email": "pratik123@gmail.com",
+      "nationality": "Indian",
+      "preferredCurrency": "INR",
+      "createdAt": "2026-09-24T09:51:00.887Z",
+      "updatedAt": "2026-09-24T09:51:00.887Z"
     }
   },
   "transactions": {},
